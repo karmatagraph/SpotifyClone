@@ -31,6 +31,7 @@
 		4822DDC828914EF700D826A3 /* AudioTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDC728914EF700D826A3 /* AudioTrack.swift */; };
 		4822DDCA28914EFE00D826A3 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDC928914EFE00D826A3 /* Artist.swift */; };
 		4822DDCE28914F1600D826A3 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDCD28914F1600D826A3 /* UserProfile.swift */; };
+		4822DDD12891577200D826A3 /* AuthConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDD02891577200D826A3 /* AuthConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		4822DDC728914EF700D826A3 /* AudioTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrack.swift; sourceTree = "<group>"; };
 		4822DDC928914EFE00D826A3 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		4822DDCD28914F1600D826A3 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		4822DDD02891577200D826A3 /* AuthConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 		4822DDA828914CB300D826A3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4822DDCF2891576400D826A3 /* Constants */,
 				4822DD9428914B8A00D826A3 /* Assets.xcassets */,
 				4822DD8B28914B8700D826A3 /* AppDelegate.swift */,
 				4822DD8D28914B8700D826A3 /* SceneDelegate.swift */,
@@ -183,6 +186,14 @@
 				4822DDBD28914E7300D826A3 /* SearchResultViewController.swift */,
 			);
 			path = Others;
+			sourceTree = "<group>";
+		};
+		4822DDCF2891576400D826A3 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				4822DDD02891577200D826A3 /* AuthConstants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +284,7 @@
 				4822DDB828914E4800D826A3 /* ProfileViewController.swift in Sources */,
 				4822DDCE28914F1600D826A3 /* UserProfile.swift in Sources */,
 				4822DDB228914E2600D826A3 /* AuthViewController.swift in Sources */,
+				4822DDD12891577200D826A3 /* AuthConstants.swift in Sources */,
 				4822DDAE28914DFE00D826A3 /* LibraryViewController.swift in Sources */,
 				4822DDAA28914DC000D826A3 /* TabBarViewController.swift in Sources */,
 				4822DDCA28914EFE00D826A3 /* Artist.swift in Sources */,
