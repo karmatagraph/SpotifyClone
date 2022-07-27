@@ -94,6 +94,7 @@ fastlane/test_output
 iOSInjectionProject/
 
 ### Xcode ###
+AuthConstants.swift
 
 ## Xcode 8 and earlier
 
