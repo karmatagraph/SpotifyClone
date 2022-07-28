@@ -49,8 +49,14 @@ class AuthViewController: UIViewController {
         guard let code = components?.queryItems?.first(where: {$0.name == "code" })?.value else {
             return
         }
-        
-        print(code)
+        webView.isHidden = true
+        print("CODE:----",code)
+        AuthManager.shared.exchangeCodeForToken(code: code) { [weak self] success in
+            DispatchQueue.main.async {
+                self?.navigationController?.popToRootViewController(animated: true)
+                self?.completionHandler?(success)
+            }
+        }
         
     }
     
