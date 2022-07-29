@@ -13,18 +13,15 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         title = "home"
         view.backgroundColor = .systemBackground
-        // Do any additional setup after loading the view.
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettings))
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: - Private methods
+    @objc func didTapSettings() {
+        let vc = ProfileViewController()
+        vc.title = "Profile"
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
-    */
-
+    
 }

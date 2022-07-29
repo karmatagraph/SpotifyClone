@@ -9,6 +9,8 @@ import Foundation
 
 final class AuthManager {
     static let shared = AuthManager()
+    private var refreshingToken = false
+    
     private init() { }
     
     public var signInUrl: URL? {
@@ -45,9 +47,6 @@ final class AuthManager {
     
     public func exchangeCodeForToken(code: String, completion: @escaping((Bool)-> Void)) {
         // get token
-        guard let url = URL(string: Endpoints.tokenApiUrl) else {
-            return
-        }
         var components = URLComponents()
         components.queryItems = [
             URLQueryItem(name: "grant_type",
@@ -64,6 +63,10 @@ final class AuthManager {
         guard let base64String = data?.base64EncodedString() else {
             print("somthing went wrong to get base 64 ")
             completion(false)
+            return
+        }
+        
+        guard let url = URL(string: API.tokenUrl) else {
             return
         }
         
@@ -84,6 +87,7 @@ final class AuthManager {
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 print("SUCCESS: ---\(result)")
+                self?.cacheToken(result: result)
                 completion(true)
             } catch let error {
                 print(error.localizedDescription)
@@ -93,26 +97,58 @@ final class AuthManager {
         task.resume()
     }
     
+    private var onRefreshBlocks = [((String) -> Void)]()
+    
+    ///```
+    /// Supplies valid token to be used with api calls
+    ///
+    /// ```
+    public func withValidToken(completion: @escaping((String)->Void)) {
+        guard !refreshingToken else {
+            // Append the completion
+            onRefreshBlocks.append(completion)
+            return
+        }
+        
+        if shouldRefreshToken {
+            // Refresh
+            refreshIfNeeded { [weak self] success in
+                if success {
+                    if let token = self?.accessToken,success {
+                        completion(token)
+                    }
+                }
+            }
+        } else if let token = accessToken {
+            completion(token)
+        }
+    }
+    
     public func refreshIfNeeded(completion: @escaping((Bool)-> Void)) {
-//        guard shouldRefreshToken else {
-//            completion(true)
-//            return
-//        }
+        
+        guard !refreshingToken else {
+            return
+        }
+        
+        guard shouldRefreshToken else {
+            completion(true)
+            return
+        }
         guard let refreshToken = refreshToken else {
             return
         }
         
-        //get token
-        guard let url = URL(string: Endpoints.tokenApiUrl) else {
-            return
-        }
+        // refresh the token
+        
+        refreshingToken = true
+        
         var components = URLComponents()
-        let refreshTokenFromUserd = UserDefaults.standard.string(forKey: UserDefaultsKeys.refreshToken)
+//        let refreshTokenFromUserd = UserDefaults.standard.string(forKey: UserDefaultsKeys.refreshToken)
         components.queryItems = [
             URLQueryItem(name: "grant_type",
                          value: "refresh_token"),
             URLQueryItem(name: "refresh_token",
-                         value: refreshTokenFromUserd)
+                         value: refreshToken)
             
         ]
         
@@ -121,6 +157,10 @@ final class AuthManager {
         guard let base64String = data?.base64EncodedString() else {
             print("somthing went wrong to get base 64 ")
             completion(false)
+            return
+        }
+        
+        guard let url = URL(string: API.tokenUrl) else {
             return
         }
         
@@ -134,6 +174,7 @@ final class AuthManager {
     
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            self?.refreshingToken = false
             guard let data = data,error == nil else {
                 completion(false)
                 return
@@ -141,6 +182,8 @@ final class AuthManager {
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 print("Successful refreshing the token")
+                self?.onRefreshBlocks.forEach {$0(result.accessToken)}
+                self?.onRefreshBlocks.removeAll()
                 completion(true)
             } catch let error {
                 print(error.localizedDescription)

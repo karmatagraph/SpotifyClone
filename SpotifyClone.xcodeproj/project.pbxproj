@@ -37,6 +37,7 @@
 		4822DDDB28925B1600D826A3 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDDA28925B1600D826A3 /* AuthResponse.swift */; };
 		4822DDDE2892768D00D826A3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDDD2892768D00D826A3 /* Constants.swift */; };
 		4822DDE02892786100D826A3 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDDF2892786100D826A3 /* UserDefaultsKeys.swift */; };
+		48E6B01328938E8500A90833 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E6B01228938E8500A90833 /* APIError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		4822DDDA28925B1600D826A3 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		4822DDDD2892768D00D826A3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4822DDDF2892786100D826A3 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		48E6B01228938E8500A90833 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 				4822DDD228915D0B00D826A3 /* AuthConstants.swift */,
 				4822DDDD2892768D00D826A3 /* Constants.swift */,
 				4822DDDF2892786100D826A3 /* UserDefaultsKeys.swift */,
+				48E6B01228938E8500A90833 /* APIError.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				4822DD8C28914B8700D826A3 /* AppDelegate.swift in Sources */,
 				4822DDC228914EBB00D826A3 /* APICaller.swift in Sources */,
 				4822DDC428914EC400D826A3 /* HapticsManager.swift in Sources */,
+				48E6B01328938E8500A90833 /* APIError.swift in Sources */,
 				4822DDD62891628A00D826A3 /* UIView+Extension.swift in Sources */,
 				4822DDBA28914E5500D826A3 /* PlayerViewController.swift in Sources */,
 				4822DD8E28914B8700D826A3 /* SceneDelegate.swift in Sources */,
