@@ -31,7 +31,6 @@
 		4822DDC828914EF700D826A3 /* AudioTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDC728914EF700D826A3 /* AudioTrack.swift */; };
 		4822DDCA28914EFE00D826A3 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDC928914EFE00D826A3 /* Artist.swift */; };
 		4822DDCE28914F1600D826A3 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDCD28914F1600D826A3 /* UserProfile.swift */; };
-		4822DDD328915D0B00D826A3 /* AuthConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDD228915D0B00D826A3 /* AuthConstants.swift */; };
 		4822DDD62891628A00D826A3 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDD52891628A00D826A3 /* UIView+Extension.swift */; };
 		4822DDD928924C4300D826A3 /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDD828924C4300D826A3 /* Endpoints.swift */; };
 		4822DDDB28925B1600D826A3 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822DDDA28925B1600D826A3 /* AuthResponse.swift */; };
@@ -68,7 +67,6 @@
 		4822DDC728914EF700D826A3 /* AudioTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrack.swift; sourceTree = "<group>"; };
 		4822DDC928914EFE00D826A3 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		4822DDCD28914F1600D826A3 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		4822DDD228915D0B00D826A3 /* AuthConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConstants.swift; sourceTree = "<group>"; };
 		4822DDD52891628A00D826A3 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		4822DDD828924C4300D826A3 /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		4822DDDA28925B1600D826A3 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
@@ -209,7 +207,6 @@
 		4822DDCF2891576400D826A3 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				4822DDD228915D0B00D826A3 /* AuthConstants.swift */,
 				4822DDDD2892768D00D826A3 /* Constants.swift */,
 				4822DDDF2892786100D826A3 /* UserDefaultsKeys.swift */,
 				48E6B01228938E8500A90833 /* APIError.swift */,
@@ -327,7 +324,6 @@
 				4822DDB828914E4800D826A3 /* ProfileViewController.swift in Sources */,
 				4822DDCE28914F1600D826A3 /* UserProfile.swift in Sources */,
 				4822DDB228914E2600D826A3 /* AuthViewController.swift in Sources */,
-				4822DDD328915D0B00D826A3 /* AuthConstants.swift in Sources */,
 				4822DDAE28914DFE00D826A3 /* LibraryViewController.swift in Sources */,
 				4822DDAA28914DC000D826A3 /* TabBarViewController.swift in Sources */,
 				4822DDCA28914EFE00D826A3 /* Artist.swift in Sources */,
