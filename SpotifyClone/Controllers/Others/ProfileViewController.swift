@@ -13,6 +13,11 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         title = "Profile"
         view.backgroundColor = .systemBackground
+        fetchProfile()
+    }
+    
+    //MARK: - Private method
+    private func fetchProfile() {
         APICaller.shared.getCurrentUserProfile { result in
             switch result {
             case .success(let model):
