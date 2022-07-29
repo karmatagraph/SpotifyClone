@@ -47,8 +47,15 @@ struct UserProfile: Codable {
     let externalUrls: [String:String]
 //    let followers: [String: Codable?]
     let id: String
-    let image: [UserImage]
+    let images: [UserImage]
     let product: String
+    
+    enum CodingKeys: String,CodingKey {
+        case country, email, id, images, product
+        case displayName = "display_name"
+        case explicitContent = "explicit_content"
+        case externalUrls = "external_urls"
+    }
 }
 
 struct UserImage: Codable {
