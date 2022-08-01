@@ -70,17 +70,16 @@ final class APICaller {
         }
     }
     
-    public func getRecommendations(genres: Set<String>, completion: @escaping((Result<String,Error>)->Void)) {
+    public func getRecommendations(genres: Set<String>, completion: @escaping((Result<RecommendationsResponse,Error>)->Void)) {
         let seeds = genres.joined(separator: ",")
-        createRequest(with: URL(string: API.url + Endpoints.recommendations.path + "?seed_genres=\(seeds)"), type: .GET) { baseRequest in
+        createRequest(with: URL(string: API.url + Endpoints.recommendations.path + "?limit=1&seed_genres=\(seeds)"), type: .GET) { baseRequest in
             print(baseRequest.url?.absoluteString)
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
                     return
                 }
                 do {
-                    let model = try JSONSerialization.jsonObject(with: data)
-                    print("MODEL----",model)
+                    let model = try JSONDecoder().decode(RecommendationsResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
                 } catch let error {
                     print(error.localizedDescription)
                 }
