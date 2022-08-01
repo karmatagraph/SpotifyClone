@@ -70,7 +70,43 @@ final class APICaller {
         }
     }
     
+    public func getRecommendations(genres: Set<String>, completion: @escaping((Result<String,Error>)->Void)) {
+        let seeds = genres.joined(separator: ",")
+        createRequest(with: URL(string: API.url + Endpoints.recommendations.path + "?seed_genres=\(seeds)"), type: .GET) { baseRequest in
+            print(baseRequest.url?.absoluteString)
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    return
+                }
+                do {
+                    let model = try JSONSerialization.jsonObject(with: data)
+                    print("MODEL----",model)
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
+        }
+    }
     
+    public func getRecommendationsGenre(completion: @escaping((Result<RecommendedGenreResponse,Error>)->Void)){
+        createRequest(with: Endpoints.recommendationsGenre.url, type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(RecommendedGenreResponse.self, from: data)//JSONSerialization.jsonObject(with: data, options: [])
+                    completion(.success(model))
+//                    print("JSON OBJECT: -------", model)
+                } catch let error {
+                    completion(.failure(error))
+//                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
+        }
+    }
     
     // MARK: - Private method
     

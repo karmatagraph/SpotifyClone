@@ -21,6 +21,8 @@ enum Endpoints {
     case profile
     case newRelease
     case featuredPlaylist
+    case recommendations
+    case recommendationsGenre
 }
 
 extension Endpoints: Endpoint {
@@ -32,6 +34,10 @@ extension Endpoints: Endpoint {
             return "browse/new-releases?limit=1"
         case .featuredPlaylist:
             return "browse/featured-playlists?limit=1"
+        case .recommendations:
+            return "recommendations"
+        case .recommendationsGenre:
+            return "recommendations/available-genre-seeds"
         }
     }
     

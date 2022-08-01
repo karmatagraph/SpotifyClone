@@ -18,21 +18,53 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchData() {
-        APICaller.shared.getNewReleases { [weak self] result in
-            switch result{
-            case .success(let result):
-                print(result)
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        APICaller.shared.getNewReleases { [weak self] result in
+//            switch result{
+//            case .success(let result):
+//                print(result)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//
+//        APICaller.shared.getFeaturedPlaylist { [weak self] result in
+//            switch result {
+//            case .success(let model):
+//                print(model)
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+//
+//        APICaller.shared.getRecommendationsGenre { [weak self] result in
+//            switch result {
+//            case .success(let model):
+//                print(model)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
         
-        APICaller.shared.getFeaturedPlaylist { [weak self] result in
+        APICaller.shared.getRecommendationsGenre { result in
             switch result {
             case .success(let model):
-                print(model)
+                let genres = model.genres
+                var seeds = Set<String>()
+                while seeds.count < 5 {
+                    if let random = genres.randomElement() {
+                        seeds.insert(random)
+                    }
+                }
+                APICaller.shared.getRecommendations(genres: seeds) { result in
+                    switch result {
+                    case .success(let model):
+                        print(model)
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }
