@@ -47,7 +47,7 @@ struct UserProfile: Codable {
     let externalUrls: [String:String]
 //    let followers: [String: Codable?]
     let id: String
-    let images: [UserImage]
+    let images: [ApiImage]
     let product: String
     
     enum CodingKeys: String,CodingKey {
@@ -58,6 +58,4 @@ struct UserProfile: Codable {
     }
 }
 
-struct UserImage: Codable {
-    let url: String
-}
+

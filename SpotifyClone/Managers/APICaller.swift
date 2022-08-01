@@ -30,12 +30,55 @@ final class APICaller {
         }
     }
     
+    public func getNewReleases(completion: @escaping((Result<NewReleasesResponse,Error>)->Void)) {
+        createRequest(with: Endpoints.newRelease.url, type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
+                    completion(.success(model))
+                    print(model)
+                } catch let error {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+        
+    }
+    
+    public func getFeaturedPlaylist(completion: @escaping((Result<FeaturedPlaylistResponse,Error>)->())) {
+        createRequest(with: Endpoints.featuredPlaylist.url,
+                      type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data,error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(FeaturedPlaylistResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
+                    print(model)
+                    completion(.success(model))
+                } catch let error {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    
+    
     // MARK: - Private method
     
     private func createRequest(with url: URL?,
                                type: HTTPMethod,
                                completion: @escaping(URLRequest) -> Void) {
         AuthManager.shared.withValidToken { token in
+            print(token)
             guard let apiUrl = url else {
                 return
             }

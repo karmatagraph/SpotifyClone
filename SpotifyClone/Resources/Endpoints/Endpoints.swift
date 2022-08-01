@@ -8,7 +8,7 @@
 import Foundation
 
 struct API {
-    static let url = "https://api.spotify.com/"
+    static let url = "https://api.spotify.com/v1/"
     static let tokenUrl = "https://accounts.spotify.com/api/token"
 }
 
@@ -19,13 +19,19 @@ protocol Endpoint{
 
 enum Endpoints {
     case profile
+    case newRelease
+    case featuredPlaylist
 }
 
 extension Endpoints: Endpoint {
     var path: String {
         switch self {
         case .profile:
-            return "v1/me"
+            return "me"
+        case .newRelease:
+            return "browse/new-releases?limit=1"
+        case .featuredPlaylist:
+            return "browse/featured-playlists?limit=1"
         }
     }
     
