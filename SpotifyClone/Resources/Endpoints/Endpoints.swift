@@ -31,9 +31,9 @@ extension Endpoints: Endpoint {
         case .profile:
             return "me"
         case .newRelease:
-            return "browse/new-releases?limit=1"
+            return "browse/new-releases?limit=10"
         case .featuredPlaylist:
-            return "browse/featured-playlists?limit=1"
+            return "browse/featured-playlists?limit=10"
         case .recommendations:
             return "recommendations"
         case .recommendationsGenre:

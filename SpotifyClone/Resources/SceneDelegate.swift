@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         self.window = window
         
-        print(AuthManager.shared.signInUrl?.absoluteString)
+//        print(AuthManager.shared.signInUrl?.absoluteString)
         
     }
 

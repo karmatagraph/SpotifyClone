@@ -44,6 +44,8 @@
 		48DB0B182897E97100B42B6D /* NewReleaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB0B172897E97100B42B6D /* NewReleaseCollectionViewCell.swift */; };
 		48DB0B1A2897E9C000B42B6D /* FeaturedPlaylistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB0B192897E9C000B42B6D /* FeaturedPlaylistCollectionViewCell.swift */; };
 		48DB0B1C2897EAF800B42B6D /* RecommendedTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB0B1B2897EAF800B42B6D /* RecommendedTrackCollectionViewCell.swift */; };
+		48DB0B1E2897F68B00B42B6D /* NewReleasesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB0B1D2897F68B00B42B6D /* NewReleasesCellViewModel.swift */; };
+		48DB0B202897F7BA00B42B6D /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB0B1F2897F7BA00B42B6D /* UICollectionViewCell+Extension.swift */; };
 		48E6B01328938E8500A90833 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E6B01228938E8500A90833 /* APIError.swift */; };
 		48E6B0152893A59900A90833 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E6B0142893A59900A90833 /* Settings.swift */; };
 		48E6B0172893BFE300A90833 /* AuthConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E6B0162893BFE300A90833 /* AuthConstants.swift */; };
@@ -93,6 +95,8 @@
 		48DB0B172897E97100B42B6D /* NewReleaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		48DB0B192897E9C000B42B6D /* FeaturedPlaylistCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylistCollectionViewCell.swift; sourceTree = "<group>"; };
 		48DB0B1B2897EAF800B42B6D /* RecommendedTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedTrackCollectionViewCell.swift; sourceTree = "<group>"; };
+		48DB0B1D2897F68B00B42B6D /* NewReleasesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleasesCellViewModel.swift; sourceTree = "<group>"; };
+		48DB0B1F2897F7BA00B42B6D /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
 		48E6B01228938E8500A90833 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		48E6B0142893A59900A90833 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		48E6B0162893BFE300A90833 /* AuthConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConstants.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 		4822DDA628914CA100D826A3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				48DB0B1D2897F68B00B42B6D /* NewReleasesCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				4822DDD52891628A00D826A3 /* UIView+Extension.swift */,
+				48DB0B1F2897F7BA00B42B6D /* UICollectionViewCell+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -407,6 +413,7 @@
 				48D5B13B2893FD9600796973 /* FeaturedPlaylistResponse.swift in Sources */,
 				48E6B0152893A59900A90833 /* Settings.swift in Sources */,
 				4822DDB428914E3300D826A3 /* WelcomeViewController.swift in Sources */,
+				48DB0B1E2897F68B00B42B6D /* NewReleasesCellViewModel.swift in Sources */,
 				48DB0B13289790F000B42B6D /* RecommendedGenreResponse.swift in Sources */,
 				48D5B1372893F1AE00796973 /* ApiImage.swift in Sources */,
 				4822DDC828914EF700D826A3 /* AudioTrack.swift in Sources */,
@@ -417,6 +424,7 @@
 				4822DD9028914B8700D826A3 /* ViewController.swift in Sources */,
 				4822DDB628914E3A00D826A3 /* SettingsViewController.swift in Sources */,
 				4822DDC028914E9E00D826A3 /* AuthManager.swift in Sources */,
+				48DB0B202897F7BA00B42B6D /* UICollectionViewCell+Extension.swift in Sources */,
 				4822DDDE2892768D00D826A3 /* Constants.swift in Sources */,
 				48DB0B152897C31300B42B6D /* RecommendationsResponse.swift in Sources */,
 				4822DDBC28914E5E00D826A3 /* PlaylistViewController.swift in Sources */,

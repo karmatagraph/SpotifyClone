@@ -39,9 +39,9 @@ final class APICaller {
                 do {
                     let model = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
                     completion(.success(model))
-                    print(model)
+//                    print(model)
                 } catch let error {
-                    print(error)
+//                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -72,16 +72,20 @@ final class APICaller {
     
     public func getRecommendations(genres: Set<String>, completion: @escaping((Result<RecommendationsResponse,Error>)->Void)) {
         let seeds = genres.joined(separator: ",")
-        createRequest(with: URL(string: API.url + Endpoints.recommendations.path + "?limit=1&seed_genres=\(seeds)"), type: .GET) { baseRequest in
-            print(baseRequest.url?.absoluteString)
+        createRequest(with: URL(string: API.url + Endpoints.recommendations.path + "?limit=10&seed_genres=\(seeds)"), type: .GET) { baseRequest in
+//             print(baseRequest.url?.absoluteString)
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
                     return
                 }
                 do {
                     let model = try JSONDecoder().decode(RecommendationsResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
+//                    print(model)
+                    completion(.success(model))
+                    
                 } catch let error {
                     print(error.localizedDescription)
+                    completion(.failure(error))
                 }
             }
             task.resume()
@@ -113,7 +117,7 @@ final class APICaller {
                                type: HTTPMethod,
                                completion: @escaping(URLRequest) -> Void) {
         AuthManager.shared.withValidToken { token in
-            print(token)
+//            print(token)
             guard let apiUrl = url else {
                 return
             }

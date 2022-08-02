@@ -60,7 +60,7 @@ import Foundation
  */
 
 struct FeaturedPlaylistResponse: Codable {
-    let playlist: PlaylistResponse
+    let playlists: PlaylistResponse
 }
 
 struct PlaylistResponse: Codable {
