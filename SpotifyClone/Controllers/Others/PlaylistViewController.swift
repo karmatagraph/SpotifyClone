@@ -136,9 +136,20 @@ extension PlaylistViewController: UICollectionViewDataSource {
                                                           description: playlist.description,
                                                           artworkURL: URL(string: playlist.images.first?.url ?? ""))
         header.configure(with: headerViewModel)
+        header.delegate = self
         header.backgroundColor = .systemBackground
         return header
     }
     
+}
+
+extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
+    
+    func playlistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
+        // start play list play in queue
+        print("Playing all")
+    }
     
 }
+
+
