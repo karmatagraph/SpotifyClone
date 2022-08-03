@@ -11,6 +11,55 @@ final class APICaller {
     static let shared = APICaller()
     private init() {}
     
+    // MARK: - Albums
+    
+    public func getAlbumDetails(for album: Album, completion: @escaping((Result<AlbumDetailResponse,Error>)->Void)) {
+        createRequest(with: Endpoints.album(id: album.id).url,
+                      type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil else {
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(AlbumDetailResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
+                    print(model)
+                    completion(.success(model))
+                } catch let error {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK: - Playlist
+    public func getPlaylistDetails(for playlist: Playlist, completion: @escaping((Result<PlaylistDetailResponse,Error>)->Void)) {
+        createRequest(with: Endpoints.playlist(id: playlist.id).url,
+                      type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil
+                else {
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(PlaylistDetailResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
+//                    print(model)
+                    completion(.success(model))
+                    
+                } catch let error {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK: - Profile
     public func getCurrentUserProfile(completion: @escaping((Result<UserProfile,Error>)-> Void)) {
         createRequest(with: Endpoints.profile.url, type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
@@ -29,6 +78,9 @@ final class APICaller {
             task.resume()
         }
     }
+    
+    
+    // MARK: - Browse
     
     public func getNewReleases(completion: @escaping((Result<NewReleasesResponse,Error>)->Void)) {
         createRequest(with: Endpoints.newRelease.url, type: .GET) { baseRequest in

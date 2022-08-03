@@ -18,6 +18,8 @@ protocol Endpoint{
 }
 
 enum Endpoints {
+    case album(id: String?)
+    case playlist(id: String?)
     case profile
     case newRelease
     case featuredPlaylist
@@ -28,6 +30,10 @@ enum Endpoints {
 extension Endpoints: Endpoint {
     var path: String {
         switch self {
+        case .album(let id):
+            return "albums\(id == nil ? "" : "/\(id ?? "")")"
+        case .playlist(let id):
+            return "playlists\(id == nil ? "" : "/\(id ?? "")")"
         case .profile:
             return "me"
         case .newRelease:
@@ -38,6 +44,7 @@ extension Endpoints: Endpoint {
             return "recommendations"
         case .recommendationsGenre:
             return "recommendations/available-genre-seeds"
+            
         }
     }
     
