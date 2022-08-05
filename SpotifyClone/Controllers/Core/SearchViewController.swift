@@ -45,6 +45,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         setup()
         fetchData()
@@ -97,14 +98,6 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard
-            let resultController = searchController.searchResultsController as? SearchResultViewController,
-            let query = searchController.searchBar.text,
-            !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            return
-        }
-        // result controller.update(with: results)
-        // Perform Search
         
     }
     
@@ -135,4 +128,25 @@ extension SearchViewController: UICollectionViewDataSource {
         return cell
     }
     
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard
+            let resultController = searchController.searchResultsController as? SearchResultViewController,
+            let query = searchController.searchBar.text,
+            !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        APICaller.shared.search(with: query) { [weak self ] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let results):
+                    resultController.update(with results)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
 }
