@@ -8,7 +8,7 @@
 import UIKit
 
 class AlbumTrackCollectionViewCell: UICollectionViewCell {
-    static let identifier = "RecommendedTrackCollectionViewCell"
+//    static let identifier = "RecommendedTrackCollectionViewCell"
     
     private let trackCoverImageView: UIImageView = {
        let imageView = UIImageView()

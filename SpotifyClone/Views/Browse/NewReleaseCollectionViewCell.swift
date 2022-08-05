@@ -10,7 +10,7 @@ import SDWebImage
 
 class NewReleaseCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "NewReleaseCollectionViewCell"
+//    static let identifier = "NewReleaseCollectionViewCell"
     
     private let albumCoverImageView: UIImageView = {
        let imageView = UIImageView()

@@ -8,8 +8,8 @@
 import UIKit
 
 extension UICollectionViewCell {
-//    static var identifier: String{
-//        "\(self)"
-//    }
+    static var identifier: String{
+        "\(self)"
+    }
 }
 
