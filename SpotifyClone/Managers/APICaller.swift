@@ -163,6 +163,53 @@ final class APICaller {
         }
     }
     
+    // MARK: - Category
+    public func getCategories(completion: @escaping((Result<[Category],Error>) -> Void)) {
+        createRequest(with: Endpoints.categories.url, type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil
+                else {
+                    completion(.failure(error!))
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(AllCategoriesResponse.self, from: data)//try JSONSerialization.jsonObject(with: data)
+                    print(model)
+                    completion(.success(model.categories.items))
+                } catch let error {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func getCategoryPlaylist(category: Category,completion: @escaping((Result<[Playlist],Error>) -> Void)) {
+        createRequest(with: Endpoints.categoryPlaylist(id: category.id).url, type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil
+                else {
+                    completion(.failure(error!))
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(CategoryPlaylistResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
+                    print(model)
+                    completion(.success(model.playlists.items))
+                } catch let error {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
     // MARK: - Private method
     
     private func createRequest(with url: URL?,

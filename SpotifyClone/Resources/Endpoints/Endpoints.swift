@@ -21,6 +21,8 @@ enum Endpoints {
     case album(id: String?)
     case playlist(id: String?)
     case profile
+    case categories
+    case categoryPlaylist(id: String?)
     case newRelease
     case featuredPlaylist
     case recommendations
@@ -36,6 +38,10 @@ extension Endpoints: Endpoint {
             return "playlists\(id == nil ? "" : "/\(id ?? "")")"
         case .profile:
             return "me"
+        case .categories:
+            return "browse/categories?limit=30"
+        case .categoryPlaylist(let id):
+            return "browse/categories\(id == nil ? "" : "/\(id ?? "")")/playlists"
         case .newRelease:
             return "browse/new-releases?limit=10"
         case .featuredPlaylist:
