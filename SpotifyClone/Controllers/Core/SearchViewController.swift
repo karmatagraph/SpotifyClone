@@ -138,15 +138,38 @@ extension SearchViewController: UISearchBarDelegate {
             !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
+        
+        resultController.delegate = self
+        
+        
         APICaller.shared.search(with: query) { [weak self ] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let results):
-                    resultController.update(with results)
+                    resultController.update(with: results)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
+        }
+    }
+}
+
+extension SearchViewController: SearchResultViewControllerDelegate {
+    func didTapResult(_ result: SearchResults) {
+        switch result {
+        case .artist(let model):
+            break
+        case .album(let model):
+            let vc = AlbumViewController(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .track(let model):
+            break
+        case .playlist(let model):
+            let vc = PlaylistViewController(playlist: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
