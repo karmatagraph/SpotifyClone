@@ -76,6 +76,10 @@ class PlayerViewController: UIViewController {
         //
     }
     
+    func refreshUI() {
+        configure()
+    }
+    
 }
 
 extension PlayerViewController: PlayerControlsViewDelegate {

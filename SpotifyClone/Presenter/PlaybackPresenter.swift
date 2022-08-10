@@ -28,11 +28,11 @@ final class PlaybackPresenter {
             tracks.isEmpty {
             return track
         } else if let player = self.playerQueue, !tracks.isEmpty {
-            let item = player.currentItem
-            let items = player.items()
-            guard let index = items.firstIndex(where: {$0 == item}) else {
-                return nil
-            }
+//            let item = player.currentItem
+//            let items = player.items()
+//            guard let index = items.firstIndex(where: {$0 == item}) else {
+//                return nil
+//            }
             return tracks[index]
         }
         return nil
@@ -40,6 +40,8 @@ final class PlaybackPresenter {
     
     var player: AVPlayer?
     var playerQueue: AVQueuePlayer?
+    var playerVC: PlayerViewController?
+    var index = 0
     
     func startPlayback(from viewcontroller: UIViewController, track: AudioTrack) {
         guard let url = URL(string: track.preview_url ?? "") else {
@@ -58,12 +60,14 @@ final class PlaybackPresenter {
             //start playing the audio
             self?.player?.play()
         }
+        self.playerVC = vc
     }
     
     func startPlayback(from viewcontroller: UIViewController, tracks: [AudioTrack]) {
         
         self.tracks = tracks
         self.track = nil
+        playerQueue?.volume = 0.2
         self.playerQueue = AVQueuePlayer(items: tracks.compactMap({
             guard let url = URL(string: $0.preview_url ?? "") else { return nil }
             return AVPlayerItem(url: url)
@@ -73,6 +77,7 @@ final class PlaybackPresenter {
         vc.datasource = self
         vc.delegate = self
         viewcontroller.present(UINavigationController(rootViewController: vc), animated: true)
+        self.playerVC = vc
     }
     
 }
@@ -122,6 +127,7 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
             playerQueue?.removeAllItems()
             playerQueue = AVQueuePlayer(items: [playerFirstItem])
             playerQueue?.play()
+            playerQueue?.volume = 0.2
         }
     }
     
@@ -131,6 +137,8 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
             player?.pause()
         } else if let player = playerQueue {
             player.advanceToNextItem()
+            index += 1
+            playerVC?.refreshUI()
         }
     }
     

@@ -52,6 +52,7 @@ class PlaylistViewController: UIViewController {
     
     private var viewModels: [RecommendedTrackCellViewModel] = []
     private var tracks: [AudioTrack] = []
+    private var album: Album?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,7 +165,12 @@ extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func playlistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
         // start play list play in queue
 //        print("Playing all")
-        PlaybackPresenter.shared.startPlayback(from: self, tracks: tracks)
+        let tracksWithAlbum: [AudioTrack] = tracks.compactMap({
+            var track = $0
+            track.album = self.album
+            return track
+        })
+        PlaybackPresenter.shared.startPlayback(from: self, tracks: tracksWithAlbum)
     }
     
 }
