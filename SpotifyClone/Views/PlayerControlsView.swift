@@ -8,19 +8,26 @@
 import UIKit
 
 protocol PlayerControlsViewDelegate: AnyObject {
-    func PlayerControlsViewDidTapBackButton(_ playerControlView: PlayerControlsView)
-    func PlayerControlsViewDidTapPlayPause(_ playerControlView: PlayerControlsView)
-    func PlayerControlsViewDidTapNextButton(_ playerControlView: PlayerControlsView)
+    func playerControlsViewDidTapBackButton(_ playerControlView: PlayerControlsView)
+    func playerControlsViewDidTapPlayPause(_ playerControlView: PlayerControlsView)
+    func playerControlsViewDidTapNextButton(_ playerControlView: PlayerControlsView)
+    func playerControlsView(_ playerControlView: PlayerControlsView,didSlideSlider value: Float)
+}
+
+struct PlayerControlsViewViewModel {
+    let title: String
+    let subtitle: String
 }
 
 final class PlayerControlsView: UIView {
     
     weak var delegate: PlayerControlsViewDelegate?
+    private var isPlaying = true
     
     private let volumeSlider: UISlider = {
         let slider = UISlider()
         slider.tintColor = .systemGreen
-        slider.value = 0.5
+        slider.value = 0.2
         return slider
     }()
     
@@ -100,9 +107,8 @@ final class PlayerControlsView: UIView {
                                      y: playPauseButton.top,
                                      width: buttonSize,
                                      height: buttonSize)
-        
-        
     }
+    
     
     // MARK: - Private Methods
     private func setupSubviews() {
@@ -115,22 +121,37 @@ final class PlayerControlsView: UIView {
         clipsToBounds = true
     }
     
+    func configure(with viewModel: PlayerControlsViewViewModel) {
+        nameLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
+    }
+    
     private func setupButtons() {
         backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         playPauseButton.addTarget(self, action: #selector(didTapPlayPause), for: .touchUpInside)
         forwardButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
+        volumeSlider.addTarget(self, action: #selector(didSlideSlider(_:)), for: .valueChanged)
+    }
+    
+    @objc func didSlideSlider(_ slider: UISlider) {
+        let value = slider.value
+        delegate?.playerControlsView(self, didSlideSlider: value)
     }
     
     @objc private func didTapBack() {
-        delegate?.PlayerControlsViewDidTapBackButton(self)
+        delegate?.playerControlsViewDidTapBackButton(self)
     }
     
     @objc private func didTapPlayPause() {
-        delegate?.PlayerControlsViewDidTapPlayPause(self)
+        self.isPlaying.toggle()
+        delegate?.playerControlsViewDidTapPlayPause(self)
+        let pauseImage = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
+        let playImage = UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
+        playPauseButton.setImage(isPlaying ? pauseImage : playImage, for: .normal)
     }
     
     @objc private func didTapNext() {
-        delegate?.PlayerControlsViewDidTapNextButton(self)
+        delegate?.playerControlsViewDidTapNextButton(self)
     }
     
 }
