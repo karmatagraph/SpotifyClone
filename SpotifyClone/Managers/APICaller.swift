@@ -60,6 +60,77 @@ final class APICaller {
         }
     }
     
+    public func getCurrentUserPlaylists(completion: @escaping((Result<[Playlist],Error>)->Void)) {
+        createRequest(with: Endpoints.currentUserPlaylist.url, type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil
+                else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+
+                do {
+                    let model = try JSONDecoder().decode(LibraryPlaylistResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
+                    completion(.success(model.items))
+                    
+                } catch (let error) {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func createPlaylists(with name: String, completion: @escaping((Bool)->Void)) {
+        getCurrentUserProfile { result in
+            switch result {
+            case .success(let model):
+                self.createRequest(with: Endpoints.createPlaylist(id: model.id).url, type: .POST) { baseRequest in
+                    var request = baseRequest
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    let json = [
+                        "name" : name,
+                        "public" : "true"
+                    ]
+                    request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+                    let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                        guard
+                            let data = data,
+                            error == nil
+                        else {
+                            completion(false)
+                            return
+                        }
+                        do {
+                            let results = try JSONSerialization.jsonObject(with: data,options: .fragmentsAllowed)
+                            print(results)
+                            completion(true)
+                        } catch (let error) {
+                            print(error.localizedDescription)
+                            completion(false)
+                        }
+                    }
+                    task.resume()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    public func addTrackToPlaylist(track: AudioTrack, playlist: Playlist, completion:@escaping((Bool)-> Void)) {
+        
+    }
+    
+    public func removeTrackFromPlaylsit(track: AudioTrack, playlist: Playlist, completion:@escaping((Bool)-> Void)) {
+        
+    }
+    
+    
     // MARK: - Profile
     public func getCurrentUserProfile(completion: @escaping((Result<UserProfile,Error>)-> Void)) {
         createRequest(with: Endpoints.profile.url, type: .GET) { request in

@@ -14,7 +14,7 @@ final class AuthManager {
     private init() { }
     
     public var signInUrl: URL? {
-        let scopes = "user-read-private%20playlist-modify-public%20playlist-read-private%20user-library-modify%20user-library-read%20user-read-email"
+        let scopes = "user-read-private%20playlist-modify-public%20playlist-read-private%20user-library-modify%20playlist-modify-private%20user-library-read%20user-read-email%20user-library-modify"
         let redirectUri = "https://www.instagram.com/mildcrash/"
         let base = "https://accounts.spotify.com/authorize"
         let string = "\(base)?response_type=code&client_id=\(AuthConstants.clientID)&scope=\(scopes)&redirect_uri=\(redirectUri)&show_dialog=true"

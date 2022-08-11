@@ -21,6 +21,8 @@ enum Endpoints {
     case album(id: String?)
     case playlist(id: String?)
     case profile
+    case currentUserPlaylist
+    case createPlaylist(id: String?)
     case search(queryText: String?)
     case categories
     case categoryPlaylist(id: String?)
@@ -39,6 +41,10 @@ extension Endpoints: Endpoint {
             return "playlists\(id == nil ? "" : "/\(id ?? "")")"
         case .profile:
             return "me"
+        case .currentUserPlaylist:
+            return "me/playlists"
+        case .createPlaylist(let id):
+            return "users/\(id == nil ? "" : "\(id ?? "")")/playlists"
         case .search(let queryText):
             return "search?limit=10&type=album,track,artist,playlist,show,episode&q=\(queryText == nil ? "" : "\(queryText ?? "")")"
         case .categories:
