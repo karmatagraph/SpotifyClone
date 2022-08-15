@@ -73,7 +73,6 @@ class LibraryPlaylistViewController: UIViewController {
                 case .success(let model):
                     self?.playlists = model
                     self?.updateUI()
-                    print(model)
                 }
             }
         }
@@ -140,6 +139,7 @@ extension LibraryPlaylistViewController: UITableViewDelegate {
         }
         let vc = PlaylistViewController(playlist: selected)
         vc.navigationItem.largeTitleDisplayMode = .never
+        vc.isOwner = true
         navigationController?.pushViewController(vc, animated: true)
         
     }

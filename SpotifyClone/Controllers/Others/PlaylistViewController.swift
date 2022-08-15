@@ -39,8 +39,14 @@ class PlaylistViewController: UIViewController {
         return section
     }))
 
+    // MARK: Properties
     private let playlist: Playlist
+    private var viewModels: [RecommendedTrackCellViewModel] = []
+    private var tracks: [AudioTrack] = []
+    private var album: Album?
+    public var isOwner: Bool = false
 
+    // MARK: Life Cycles
     init(playlist: Playlist) {
         self.playlist = playlist
         super.init(nibName: nil, bundle: nil)
@@ -50,14 +56,11 @@ class PlaylistViewController: UIViewController {
         fatalError()
     }
     
-    private var viewModels: [RecommendedTrackCellViewModel] = []
-    private var tracks: [AudioTrack] = []
-    private var album: Album?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         fetchData()
+        setupLongPress()
         title = playlist.name
         view.backgroundColor = .systemBackground
     }
@@ -87,7 +90,6 @@ class PlaylistViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
-//                    print(model)
                     self?.tracks = model.tracks.items.compactMap({ $0.track })
                     self?.viewModels = model.tracks.items.compactMap({
                         RecommendedTrackCellViewModel(name: $0.track.name ?? "",
@@ -102,6 +104,11 @@ class PlaylistViewController: UIViewController {
         }
     }
     
+    private func setupLongPress() {
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        collectionView.addGestureRecognizer(gesture)
+    }
+    
     @objc func didTapShare() {
         guard let url = URL(string: playlist.external_urls["spotify"] ?? "") else {
             return
@@ -111,6 +118,42 @@ class PlaylistViewController: UIViewController {
                                           applicationActivities: [])
         vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(vc, animated: true)
+    }
+    
+    
+    @objc private func didLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+        let touchPoint = gesture.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint) else {
+            return
+        }
+        let trackToDelete = tracks[indexPath.row]
+        
+        let actionSheet = UIAlertController(title: "Remove",
+                                            message: "would you like to remove \(trackToDelete.name) from the \(playlist.name) playlsit",
+                                            preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        actionSheet.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            APICaller.shared.removeTrackFromPlaylsit(tracktodelete: trackToDelete, playlist: self.playlist) { result in
+                DispatchQueue.main.async {
+                    if result {
+                        // remove in track collection and reload the view
+                        self.tracks.remove(at: indexPath.row)
+                        self.viewModels.remove(at: indexPath.row)
+                        self.collectionView.reloadData()
+                        
+                    }
+                }
+                
+                
+            }
+        }))
+        present(actionSheet, animated: true)
     }
     
 }

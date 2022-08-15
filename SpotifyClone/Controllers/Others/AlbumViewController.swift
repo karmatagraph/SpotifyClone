@@ -65,7 +65,6 @@ class AlbumViewController: UIViewController {
         APICaller.shared.getAlbumDetails(for: album) { [weak self] result in
             switch result {
             case .success(let model):
-                print(model)
                 DispatchQueue.main.async {
                     self?.tracks = model.tracks.items
                     self?.viewModels = model.tracks.items.compactMap({

@@ -25,10 +25,8 @@ final class APICaller {
                 }
                 do {
                     let model = try JSONDecoder().decode(AlbumDetailResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
-                    print(model)
                     completion(.success(model))
                 } catch let error {
-                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -49,7 +47,6 @@ final class APICaller {
                 }
                 do {
                     let model = try JSONDecoder().decode(PlaylistDetailResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
-//                    print(model)
                     completion(.success(model))
                     
                 } catch let error {
@@ -106,7 +103,6 @@ final class APICaller {
                         }
                         do {
                             let results = try JSONSerialization.jsonObject(with: data,options: .fragmentsAllowed)
-                            print(results)
                             completion(true)
                         } catch (let error) {
                             print(error.localizedDescription)
@@ -143,7 +139,6 @@ final class APICaller {
                     if let response = result as? [String:Any], response["snapshot_id"] as? String != nil {
                         completion(true)
                     }
-                    print(result)
                 } catch (let error) {
                     print(error.localizedDescription)
                 }
@@ -152,8 +147,36 @@ final class APICaller {
         }
     }
     
-    public func removeTrackFromPlaylsit(track: AudioTrack, playlist: Playlist, completion:@escaping((Bool)-> Void)) {
-        
+    public func removeTrackFromPlaylsit(tracktodelete: AudioTrack, playlist: Playlist, completion:@escaping((Bool)-> Void)) {
+        createRequest(with: Endpoints.addItemsToPlaylist(id: playlist.id).url,
+                      type: .DELETE) { baseRequest in
+            var request = baseRequest
+            let json: [String:Any] = [
+                    "tracks" : [
+                        [
+                            "uri":tracktodelete.uri
+                        ]
+                    ]
+            ]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil
+                else {
+                    return
+                }
+                do {
+                    let result = try JSONSerialization.jsonObject(with: data)
+                    if let response = result as? [String:Any], response["snapshot_id"] as? String != nil {
+                        completion(true)
+                    }
+                } catch (let error) {
+                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
+        }
     }
     
     
@@ -168,7 +191,6 @@ final class APICaller {
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
                     completion(.success(result))
-                    print(result)
                 } catch let error {
                     completion(.failure(error))
                 }
@@ -189,9 +211,7 @@ final class APICaller {
                 do {
                     let model = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
                     completion(.success(model))
-//                    print(model)
                 } catch let error {
-//                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -210,7 +230,6 @@ final class APICaller {
                 }
                 do {
                     let model = try JSONDecoder().decode(FeaturedPlaylistResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
-                    print(model)
                     completion(.success(model))
                 } catch let error {
                     completion(.failure(error))
@@ -223,18 +242,15 @@ final class APICaller {
     public func getRecommendations(genres: Set<String>, completion: @escaping((Result<RecommendationsResponse,Error>)->Void)) {
         let seeds = genres.joined(separator: ",")
         createRequest(with: URL(string: API.url + Endpoints.recommendations.path + "?limit=10&seed_genres=\(seeds)"), type: .GET) { baseRequest in
-//             print(baseRequest.url?.absoluteString)
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
                     return
                 }
                 do {
                     let model = try JSONDecoder().decode(RecommendationsResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
-//                    print(model)
                     completion(.success(model))
                     
                 } catch let error {
-                    print(error.localizedDescription)
                     completion(.failure(error))
                 }
             }
@@ -251,10 +267,8 @@ final class APICaller {
                 do {
                     let model = try JSONDecoder().decode(RecommendedGenreResponse.self, from: data)//JSONSerialization.jsonObject(with: data, options: [])
                     completion(.success(model))
-//                    print("JSON OBJECT: -------", model)
                 } catch let error {
                     completion(.failure(error))
-//                    print(error.localizedDescription)
                 }
             }
             task.resume()
@@ -274,10 +288,8 @@ final class APICaller {
                 }
                 do {
                     let model = try JSONDecoder().decode(AllCategoriesResponse.self, from: data)//try JSONSerialization.jsonObject(with: data)
-                    print(model)
                     completion(.success(model.categories.items))
                 } catch let error {
-                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -297,10 +309,8 @@ final class APICaller {
                 }
                 do {
                     let model = try JSONDecoder().decode(CategoryPlaylistResponse.self, from: data)//JSONSerialization.jsonObject(with: data)
-                    print(model)
                     completion(.success(model.playlists.items))
                 } catch let error {
-                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -331,7 +341,6 @@ final class APICaller {
                     
                 } catch (let error) {
                     completion(.failure(error))
-                    print(error.localizedDescription)
                 }
             }
             task.resume()
@@ -344,7 +353,6 @@ final class APICaller {
                                type: HTTPMethod,
                                completion: @escaping(URLRequest) -> Void) {
         AuthManager.shared.withValidToken { token in
-//            print(token)
             guard let apiUrl = url else {
                 return
             }

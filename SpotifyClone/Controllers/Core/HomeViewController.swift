@@ -139,7 +139,6 @@ class HomeViewController: UIViewController {
             switch result{
             case .success(let result):
                 newReleases = result
-//                print(result)
                 break
             case .failure(let error):
                 print(error.localizedDescription)
@@ -154,7 +153,6 @@ class HomeViewController: UIViewController {
             switch result {
             case .success(let model):
                 featuredPlaylist = model
-                print(model)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -182,7 +180,6 @@ class HomeViewController: UIViewController {
                     switch recResult {
                     case .success(let model):
                         recommendationResponse = model
-//                        print(model)
                     case .failure(let error):
                         print(error)
                     }
