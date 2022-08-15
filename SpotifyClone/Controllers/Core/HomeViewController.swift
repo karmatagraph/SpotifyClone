@@ -54,11 +54,55 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         view.addSubview(spinner)
         fetchData()
+        setupGesture()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
+    }
+    
+    private func setupGesture() {
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        collectionView.addGestureRecognizer(gesture)
+    }
+    
+    @objc private func didLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+        
+        let touchPoint = gesture.location(in: collectionView)
+        guard
+            let indexPath = collectionView.indexPathForItem(at: touchPoint),
+            indexPath.section == 2
+        else {
+            return
+        }
+        let model = tracks[indexPath.row]
+        let actionSheet = UIAlertController(title: model.name,
+                                            message: "Would you like to add this to a playlist?",
+                                            preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Add to Playlist", style: .default, handler: { [weak self] _ in
+            DispatchQueue.main.async {
+                let vc = LibraryPlaylistViewController()
+                vc.selectionHandler = { selectedPlaylist in
+                    APICaller.shared.addTrackToPlaylist(track: model, playlist: selectedPlaylist) { result in
+                        guard result else {
+                            print("Couldn't save the track to the playlist")
+                            return
+                        }
+                        
+                    }
+                }
+                vc.title = "Select Playlist"
+                self?.present(UINavigationController(rootViewController: vc), animated: true)
+            }
+        }))
+
+        present(actionSheet, animated: true)
+                
     }
     
     private func configureCollectionView() {

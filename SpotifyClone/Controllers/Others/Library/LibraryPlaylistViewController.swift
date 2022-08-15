@@ -12,6 +12,7 @@ class LibraryPlaylistViewController: UIViewController {
     // MARK: - Properties
     var playlists = [Playlist]()
     private let noPlaylistView = ActionLabelView()
+    public var selectionHandler: ((Playlist)-> Void)?
 //    weak var delegate: SearchResultViewControllerDelegate?
     
     private let tableView: UITableView = {
@@ -29,6 +30,7 @@ class LibraryPlaylistViewController: UIViewController {
         setupView()
         fetchData()
         setupTableView()
+        setupSelection()
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,6 +46,16 @@ class LibraryPlaylistViewController: UIViewController {
         view.addSubview(noPlaylistView)
         noPlaylistView.configure(with: ActionLabelViewViewModel(text: "You Don't have any playlist created",
                                                                 actionTitle: "Create"))
+    }
+    
+    private func setupSelection() {
+        if selectionHandler != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
+        }
+    }
+    
+    @objc private func didTapClose() {
+        dismiss(animated: true)
     }
     
     private func setupTableView() {
@@ -120,6 +132,16 @@ extension LibraryPlaylistViewController: ActionLabelViewDelegate {
 extension LibraryPlaylistViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let selected = playlists[indexPath.row]
+        guard selectionHandler == nil else {
+            selectionHandler?(selected)
+            dismiss(animated: true)
+            return
+        }
+        let vc = PlaylistViewController(playlist: selected)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
 

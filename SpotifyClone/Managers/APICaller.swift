@@ -123,7 +123,33 @@ final class APICaller {
     }
     
     public func addTrackToPlaylist(track: AudioTrack, playlist: Playlist, completion:@escaping((Bool)-> Void)) {
-        
+        createRequest(with: Endpoints.addItemsToPlaylist(id: playlist.id).url,
+                      type: .POST) { baseRequest in
+            var request = baseRequest
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let json = [
+                "uris":[track.uri]
+            ]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil
+                else {
+                    return
+                }
+                do {
+                    let result = try JSONSerialization.jsonObject(with: data)
+                    if let response = result as? [String:Any], response["snapshot_id"] as? String != nil {
+                        completion(true)
+                    }
+                    print(result)
+                } catch (let error) {
+                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
+        }
     }
     
     public func removeTrackFromPlaylsit(track: AudioTrack, playlist: Playlist, completion:@escaping((Bool)-> Void)) {
