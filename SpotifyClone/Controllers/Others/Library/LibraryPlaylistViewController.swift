@@ -109,8 +109,10 @@ class LibraryPlaylistViewController: UIViewController {
                 if success {
                     // refresh playlist ui
                     self.fetchData()
+                    HapticsManager.shared.vibrate(for: .success)
                 } else {
                     print("failed to create playlist")
+                    HapticsManager.shared.vibrate(for: .error)
                 }
             }
         }))
@@ -131,6 +133,7 @@ extension LibraryPlaylistViewController: ActionLabelViewDelegate {
 extension LibraryPlaylistViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        HapticsManager.shared.vibrateForSelection()
         let selected = playlists[indexPath.row]
         guard selectionHandler == nil else {
             selectionHandler?(selected)

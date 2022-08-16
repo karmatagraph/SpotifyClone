@@ -91,10 +91,12 @@ class AlbumViewController: UIViewController {
                 
                 guard success != false else {
                     print("failed to save the album")
+                    HapticsManager.shared.vibrate(for: .error)
                     return
                 }
                 if success {
                     NotificationCenter.default.post(name: .albumSavedNotification, object: nil)
+                    HapticsManager.shared.vibrate(for: .success)
                 }
             }
         }))
