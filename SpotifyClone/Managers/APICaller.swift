@@ -34,6 +34,50 @@ final class APICaller {
         }
     }
     
+    public func getCurrentUserAlbums(completion: @escaping((Result<[LibraryAlbumDetailResponse],Error>)->Void)) {
+        createRequest(with: Endpoints.currentUserAlbums(id: nil).url,
+                      type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard
+                    let data = data,
+                    error == nil
+                else {
+                    return
+                }
+                do {
+                    let model = try JSONDecoder().decode(LibraryAlbumResponse.self, from: data)//JSONSerialization.jsonObject(with: data, options: [])
+                    completion(.success(model.items))
+//                    print(model)
+//                    completion(model)
+                } catch let error {
+                    print(error.localizedDescription)
+                    completion(.failure(APIError.failedToGetData))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func saveAlbumsToCurrentUser(album: Album,completion: @escaping((Bool)->Void)) {
+        createRequest(with: Endpoints.currentUserAlbums(id: album.id).url, type: .PUT) { baseRequest in
+            var request = baseRequest
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, response, error in
+                guard
+                    let data = data,
+                    let response = response as? HTTPURLResponse,
+                    response.statusCode == 200,
+                    error == nil
+                else {
+                    completion(false)
+                    return
+                }
+                completion(true)
+            }
+            task.resume()
+        }
+    }
+    
     // MARK: - Playlist
     public func getPlaylistDetails(for playlist: Playlist, completion: @escaping((Result<PlaylistDetailResponse,Error>)->Void)) {
         createRequest(with: Endpoints.playlist(id: playlist.id).url,

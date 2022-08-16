@@ -56,11 +56,51 @@ class AlbumViewController: UIViewController {
         super.viewDidLoad()
         setup()
         fetchData()
+        setupBarbutton()
         title = album.name
         view.backgroundColor = .systemBackground
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.frame = view.bounds
+    }
+    
+    
+    
+    
     // MARK: - Private methods
+    private func setup() {
+        setupCollectionView()
+    }
+    
+    private func setupBarbutton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
+                                                            target: self,
+                                                            action: #selector(didTapAction))
+    }
+    
+    @objc private func didTapAction() {
+        let actionSheet = UIAlertController(title: album.name, message: "actions", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Save Album", style: .default, handler: { [weak self]_ in
+            guard let self = self else {
+                return
+            }
+            APICaller.shared.saveAlbumsToCurrentUser(album: self.album) { success in
+                
+                guard success != false else {
+                    print("failed to save the album")
+                    return
+                }
+                if success {
+                    NotificationCenter.default.post(name: .albumSavedNotification, object: nil)
+                }
+            }
+        }))
+        present(actionSheet, animated: true)
+    }
+    
     private func fetchData() {
         APICaller.shared.getAlbumDetails(for: album) { [weak self] result in
             switch result {
@@ -77,16 +117,6 @@ class AlbumViewController: UIViewController {
                 print(error)
             }
         }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView.frame = view.bounds
-    }
-    
-    // MARK: - Private methods
-    private func setup() {
-        setupCollectionView()
     }
     
     private func setupCollectionView() {

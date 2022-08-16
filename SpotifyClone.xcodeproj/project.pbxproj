@@ -56,6 +56,8 @@
 		48AB9609289D098700520109 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AB9608289D098700520109 /* CategoryViewController.swift */; };
 		48AB960B289D2FA600520109 /* SearchResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AB960A289D2FA600520109 /* SearchResultResponse.swift */; };
 		48AB960D289D334000520109 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AB960C289D334000520109 /* SearchResults.swift */; };
+		48B40F2D28AA3AC90024332A /* LibraryAlbumsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B40F2C28AA3AC90024332A /* LibraryAlbumsResponse.swift */; };
+		48B40F2F28AB48940024332A /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B40F2E28AB48940024332A /* NotificationName+Extension.swift */; };
 		48B8FBAD289A3364008951CF /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8FBAC289A3364008951CF /* AlbumViewController.swift */; };
 		48B8FBAF289A3FBF008951CF /* AlbumDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8FBAE289A3FBF008951CF /* AlbumDetailResponse.swift */; };
 		48B8FBB1289A5BDD008951CF /* PlaylistDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8FBB0289A5BDD008951CF /* PlaylistDetailResponse.swift */; };
@@ -139,6 +141,8 @@
 		48AB9608289D098700520109 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		48AB960A289D2FA600520109 /* SearchResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultResponse.swift; sourceTree = "<group>"; };
 		48AB960C289D334000520109 /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
+		48B40F2C28AA3AC90024332A /* LibraryAlbumsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAlbumsResponse.swift; sourceTree = "<group>"; };
+		48B40F2E28AB48940024332A /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		48B8FBAC289A3364008951CF /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		48B8FBAE289A3FBF008951CF /* AlbumDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailResponse.swift; sourceTree = "<group>"; };
 		48B8FBB0289A5BDD008951CF /* PlaylistDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailResponse.swift; sourceTree = "<group>"; };
@@ -262,6 +266,7 @@
 				48AB960A289D2FA600520109 /* SearchResultResponse.swift */,
 				48AB960C289D334000520109 /* SearchResults.swift */,
 				48BF86B328A4E5E50057A587 /* LibraryPlaylistResponse.swift */,
+				48B40F2C28AA3AC90024332A /* LibraryAlbumsResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 				48DB0B1F2897F7BA00B42B6D /* UICollectionViewCell+Extension.swift */,
 				4847190828A26E0600F2C020 /* UITableViewCell+Extension.swift */,
 				486A3670289BDCB800F7A370 /* DateFormatter+Extension.swift */,
+				48B40F2E28AB48940024332A /* NotificationName+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -599,7 +605,9 @@
 				4847190D28A27C0D00F2C020 /* SearchResultSubtitleTableViewCellViewModel.swift in Sources */,
 				4822DDA228914C7200D826A3 /* HomeViewController.swift in Sources */,
 				48AB9601289CD09400520109 /* CategoryCollectionViewCell.swift in Sources */,
+				48B40F2F28AB48940024332A /* NotificationName+Extension.swift in Sources */,
 				48E6B0172893BFE300A90833 /* AuthConstants.swift in Sources */,
+				48B40F2D28AA3AC90024332A /* LibraryAlbumsResponse.swift in Sources */,
 				48C0C6F6289B80F20010E7CB /* TitleHeaderCollectionReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
